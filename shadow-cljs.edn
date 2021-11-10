@@ -10,7 +10,7 @@
   :e2e {:ns-regexp "e2e.*"
         :output-to "out/e2e.js"
         :target :node-test}}
-
+ 
  :dev-http {3000 "public"}
  :nrepl {:port 3333}
  :source-paths ["src"]}
