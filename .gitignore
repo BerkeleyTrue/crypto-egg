@@ -4,5 +4,6 @@ out
 .shadow-cljs
 .nrepl-port
 .clj-kondo/.cache
+.lsp
 yarn-error.log
 report.html
