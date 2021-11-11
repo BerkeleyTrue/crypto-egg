@@ -5,9 +5,10 @@
   "scripts": {
     "sc": "shadow-cljs",
     "server": "shadow-cljs stop && shadow-cljs start",
-    "start": "shadow-cljs watch app",
+    "start:cli": "shadow-cljs watch cli",
+    "start": "npm run start:cli",
     "cards": "shadow-cljs watch cards",
-    "build": "yarn clean && shadow-cljs release app",
+    "build": "shadow-cljs release cli",
     "test": "shadow-cljs compile test && node out/test.js",
     "test:watch": "shadow-cljs watch test --config-merge \"{:autorun true}\"",
     "e2e": "shadow-cljs compile e2e && node out/e2e.js",
@@ -25,6 +26,8 @@
     "zprint-clj": "~0.8.0"
   },
   "dependencies": {
-    "web3": "^1.6.0"
+    "invariant": "^2.2.4",
+    "web3": "^1.6.0",
+    "yargs": "^17.2.1"
   }
 }
