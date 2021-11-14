@@ -4,12 +4,17 @@
     ["yargs" :as yargs]
     [cli.web3 :as web3]))
 
-(defn handle-token-agg [token])
+(defn handle-token-agg [token]
+  (->
+    (web3/create)
+    (web3/get-token-usd token)
+    (.then print)))
 
 (defn handle-gas-price []
   (->
     (web3/create)
-    (web3/get-gas)))
+    (web3/get-gas)
+    (.then print)))
 
 (defn get-args
   ([] (get-args nil))
