@@ -26,6 +26,7 @@
     "zprint-clj": "~0.8.0"
   },
   "dependencies": {
+    "eth-provider": "^0.9.7",
     "invariant": "^2.2.4",
     "web3": "^1.6.0",
     "yargs": "^17.2.1"

@@ -1,13 +1,15 @@
 (ns cli.core
   (:require
     [cljs.core :as cljs]
-    ["yargs" :as yargs]))
+    ["yargs" :as yargs]
+    [cli.web3 :as web3]))
 
-(defn handle-token-agg [token]
-  (print "looking up token" token))
+(defn handle-token-agg [token])
 
 (defn handle-gas-price []
-  (print "looking up gas price"))
+  (->
+    (web3/create)
+    (web3/get-gas)))
 
 (defn get-args
   ([] (get-args nil))
