@@ -8,13 +8,15 @@
   (->
     (web3/create)
     (web3/get-token-usd token)
-    (.then print)))
+    (.then print)
+    (.then web3/close)))
 
 (defn handle-gas-price []
   (->
     (web3/create)
     (web3/get-gas)
-    (.then print)))
+    (.then print)
+    (.then web3/close)))
 
 (defn get-args
   ([] (get-args nil))

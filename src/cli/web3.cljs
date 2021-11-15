@@ -5,10 +5,39 @@
     [cli.utils :refer [display-price]]
     [cli.chain-link :refer [aggregatorV3InterfaceABI]]))
 
+(defonce provider-ref (atom nil))
+
+(defn get-provider
+  "get a cached etheruem provider or create one if none exist"
+  []
+  (let [provider (or @provider-ref (eth-provider "http://127.0.0.1:1248"))]
+    (reset! provider-ref provider)
+    provider))
+
 (defn create
   "Create a web3 client connected to Frame's http server"
   []
-  (new web3js (eth-provider "http://127.0.0.1:1248")))
+  (new web3js (get-provider)))
+
+(defn close
+  "close connection to provider if one exists"
+  []
+  (let [provider @provider-ref]
+    (when provider
+      (.close provider))
+    (reset! provider-ref nil)))
+
+(defn ^:dev/before-load start
+  "hook for hot code reload"
+  []
+  (println "starting client")
+  (get-provider))
+
+(defn ^:dev/after-load stop
+  "hook to shutdown resources"
+  []
+  (println "shutting down resources")
+  (close))
 
 (defn get-gas
   "get current gas price"
