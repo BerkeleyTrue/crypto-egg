@@ -6,11 +6,13 @@
     [cli.chain-link :refer [aggregatorV3InterfaceABI]]))
 
 (defn create
-  "Create a web3 instance"
+  "Create a web3 client connected to Frame's http server"
   []
-  (new web3js (eth-provider)))
+  (new web3js (eth-provider "http://127.0.0.1:1248")))
 
-(defn get-gas [^js/web3js web3]
+(defn get-gas
+  "get current gas price"
+  [^js/web3js web3]
   (->
     web3
     (.-eth)
