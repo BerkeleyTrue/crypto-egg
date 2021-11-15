@@ -1,10 +1,10 @@
 (ns cli.web3
   (:require
     [cljs.core :as cljs]
-    [cljs.core.async :refer [go]]
-    [cljs.core.async.interop :refer-macros [<p!]]
     ["web3" :as web3js]
-    ["eth-provider" :as eth-provider]))
+    ["eth-provider" :as eth-provider]
+    [cli.utils :refer [display-price]]))
+
 
 (def aggregatorV3InterfaceABI
   (cljs/clj->js
@@ -142,13 +142,17 @@
           #js [(get-lastest-round contract) (get-decimals contract)]
           (js/Promise.all)
           (.then
-            (fn [[latest-round decimals-string]]
+            (fn [[^js/Object latest-round decimals-string]]
               (let [decimals (js/parseInt decimals-string)
                     answer (js/parseInt (.-answer latest-round))]
-                (/ answer (js/Math.pow 10 decimals))))))))))
+                (->
+                  answer
+                  (/ (js/Math.pow 10 decimals))
+                  (display-price))))))))))
+
 (comment
   (let [web3 (create)]
     (->
       web3
-      (get-token-usd "eth")
+      (get-token-usd "ada")
       (.then print))))
