@@ -12,7 +12,7 @@
                :port port
                :handler handler
                :on-success
-               #(info "server started on" host ":" port)}))
+               #(info (str "server started on " host ":" port))}))
 
 (defmethod ig/halt-key! :system/http
   [_ server]

@@ -5,9 +5,10 @@
     [server.system]
     [server.config :refer [env]]
     ; [macchiato.middleware.session.memory :as mem]
-    [taoensso.timbre :refer-macros [info]]
+    [taoensso.timbre :as timbre :refer-macros [info]]
     [integrant.core :as ig]))
 
+(timbre/merge-config! {:timestamp-opts {:pattern "HH:MM:SS"}})
 
 (defonce system-ref (atom nil))
 (defmethod ig/init-key :router/foo [] (fn []))
