@@ -4,9 +4,8 @@
                 [funcool/cuerdas "2021.05.09-0"]
                 [macchiato/core "0.2.22"]
                 [macchiato/http "0.1.2"]
-                [metosin/reitit "0.5.10"]
-                [metosin/reitit-ring "0.5.10"]
-                [metosin/reitit-swagger "0.5.12"]]
+                [metosin/reitit "0.5.15"]
+                [metosin/reitit-ring "0.5.15"]]
 
  :source-paths ["src"]
  ; :dev-http {3000 "public"}
