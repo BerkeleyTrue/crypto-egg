@@ -17,6 +17,9 @@
 (defn switch-map [project]
   (.switchMap op project))
 
+(defn concat-map [project]
+  (js-invoke op "concatMap" project))
+
 (defn catch-error [selector]
   (.catchError op selector))
 

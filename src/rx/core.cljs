@@ -17,3 +17,5 @@
 
 (defn of [& args]
   (apply js-invoke rxjs "of" args))
+
+(def EMPTY (.-EMPTY rxjs))

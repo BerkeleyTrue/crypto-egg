@@ -5,7 +5,9 @@
                 [macchiato/core "0.2.22"]
                 [macchiato/http "0.1.2"]
                 [metosin/reitit "0.5.15"]
-                [metosin/reitit-ring "0.5.15"]]
+                [metosin/reitit-ring "0.5.15"]
+                [camel-snake-kebab "0.4.2"]]
+
 
  :source-paths ["src"]
  ; :dev-http {3000 "public"}
