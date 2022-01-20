@@ -19,3 +19,7 @@
   (apply js-invoke rxjs "of" args))
 
 (def EMPTY (.-EMPTY rxjs))
+
+(defn interval
+  ([] (interval 0))
+  ([period] (js-invoke rxjs "interval" period)))

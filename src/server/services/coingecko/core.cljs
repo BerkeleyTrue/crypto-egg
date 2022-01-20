@@ -65,7 +65,11 @@
        (op/switch-map
          (fn [ok]
            (if ok
-             (get-coins coins)
+             (->
+               (rx/interval 5000)
+               ((rx/pipe
+                  (op/switch-map
+                    #(get-coins coins)))))
              rx/EMPTY)))))
     (.subscribe (fn []))))
 
