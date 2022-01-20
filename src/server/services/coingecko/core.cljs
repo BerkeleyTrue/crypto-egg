@@ -28,7 +28,7 @@
           (rx/of false)))))))
 
 
-(defn get-coins []
+(defn get-coins [coins]
   (->
     (rx/defer
       #(.get client
@@ -37,13 +37,7 @@
           {:params
            {:vs_currency "usd"
             :ids
-            (string/join ", "
-              ["bitcoin"
-               "ethereum"
-               "tezos"
-               "pickle-finance"
-               "olympus"
-               "ethereum-name-service"])}})))
+            (string/join ", " coins)}})))
     ((rx/pipe
       (op/map utils/js->cljkk)
       (op/map :data)
@@ -63,7 +57,7 @@
           rx/EMPTY))))))
 
 (defmethod ig/init-key :service/coingecko
-  []
+  [_ {:keys [coins]}]
   (info "coingecko service started")
   (->
     (ping-ok)
@@ -71,7 +65,7 @@
        (op/switch-map
          (fn [ok]
            (if ok
-             (get-coins)
+             (get-coins coins)
              rx/EMPTY)))))
     (.subscribe (fn []))))
 

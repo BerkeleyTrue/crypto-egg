@@ -7,4 +7,12 @@
     :host "127.0.0.1"
     :handler (ig/ref :router/handler)}
    :router/handler {}
-   :service/coingecko {}})
+   :service/coingecko
+   {:coins
+    ; must use coin gecko id's
+    ["bitcoin"
+     "ethereum"
+     "tezos"
+     "pickle-finance"
+     "olympus"
+     "ethereum-name-service"]}})
