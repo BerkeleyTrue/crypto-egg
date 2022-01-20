@@ -1,12 +1,13 @@
 (ns server.core
   (:require
     ; [server.middleware :refer [wrap-defaults]]
+    [taoensso.timbre :as timbre :refer-macros [info]]
+    [integrant.core :as ig]
     [server.routes]
     [server.system]
     [server.config :refer [env]]
+    [server.services.coingecko.core]))
     ; [macchiato.middleware.session.memory :as mem]
-    [taoensso.timbre :as timbre :refer-macros [info]]
-    [integrant.core :as ig]))
 
 (timbre/merge-config! {:timestamp-opts {:pattern "HH:MM:SS"}})
 

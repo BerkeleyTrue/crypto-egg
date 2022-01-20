@@ -1,8 +1,10 @@
 (ns server.middlewares.logging
-  (:require [clojure.string]
-            ["chalk" :as chalk]))
+  (:require
+    [clojure.string]
+    ["chalk" :as chalk]
+    [taoensso.timbre :refer-macros [info]]))
 
-(comment (print (.green chalk "green")))
+(comment (info (.green chalk "green")))
 
 (defn- get-req-method [request]
   (-> (:request-method request)
@@ -41,7 +43,7 @@
     (fn [res-map]
       (let [endTime (js/Date.now)
             total-time (- endTime startTime)]
-        (print
+        (info
           (str
             (print-res-status res-map)
             " "

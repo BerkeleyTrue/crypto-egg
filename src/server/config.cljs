@@ -6,4 +6,5 @@
    {:port 3000
     :host "127.0.0.1"
     :handler (ig/ref :router/handler)}
-   :router/handler {}})
+   :router/handler {}
+   :service/coingecko {}})
