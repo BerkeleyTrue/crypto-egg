@@ -1,18 +1,32 @@
 (ns server.core
   (:require
-    ; [server.middleware :refer [wrap-defaults]]
-    [taoensso.timbre :as timbre :refer-macros [info]]
+    [cljs.pprint :refer [pprint]]
+    [taoensso.timbre :as timbre :refer-macros [info error]]
     [integrant.core :as ig]
+    [datascript.core :as d]
     [server.routes]
     [server.system]
     [server.config :refer [env]]
     [server.services.coingecko.core]))
-    ; [macchiato.middleware.session.memory :as mem]
 
-(timbre/merge-config! {:timestamp-opts {:pattern "HH:MM:SS"}})
+(js/process.on
+  "uncaughtException"
+  (fn [err]
+    (if-let [cause (ex-cause err)]
+      (error cause)
+      (error err))
+    (when-let [data (ex-data err)]
+      (pprint data))
+    (js/process.exit 1)))
+
+(timbre/merge-config!
+  {:timestamp-opts {:pattern "HH:MM:SS"}})
+
 
 (defonce system-ref (atom nil))
-(defmethod ig/init-key :router/foo [] (fn []))
+
+(defmethod ig/init-key :db/conn [_ {:keys [schema]}]
+  (d/create-conn schema))
 
 (defn ^:dev/after-load main []
   (info "hot load")

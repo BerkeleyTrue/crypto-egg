@@ -9,8 +9,6 @@
     ["axios" :as axios]
     [utils]))
 
-
-
 (def api "https://api.coingecko.com/api/v3/")
 
 (def client (.create axios (clj->js {:baseURL api})))
@@ -47,10 +45,10 @@
                  :ath ath
                  :sym symbol
                  :price current_price}))
-      (op/map #(do
-                 (println "----")
-                 (pprint/pprint %)
-                 (println "----")))
+      ; (op/map #(do
+      ;            (println "----")
+      ;            (pprint/pprint %)
+      ;            (println "----")))
       (op/catch-error
         (fn [err]
           (js/console.error err)
@@ -77,4 +75,5 @@
 (defmethod ig/halt-key! :service/coingecko
   [_ subscription]
   (when (.-unsubscribe subscription)
+    (info "unsubscribing")
     (.unsubscribe subscription)))
