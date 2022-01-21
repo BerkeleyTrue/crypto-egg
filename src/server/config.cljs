@@ -31,4 +31,5 @@
      "tezos"
      "pickle-finance"
      "olympus"
-     "ethereum-name-service"]}})
+     "ethereum-name-service"]
+    :conn (ig/ref :db/conn)}})
