@@ -1,9 +1,10 @@
 (ns server.services.coingecko.core
   (:require
     [clojure.string :as string]
-    [cljs.pprint :as pprint]
+    [cljs.pprint :refer [pprint]]
     [integrant.core :as ig]
-    [taoensso.timbre :refer-macros [info error]]
+    [taoensso.timbre :as tb :refer-macros [info error]]
+    [datascript.core :as d]
     [rx.core :as rx]
     [rx.operators :as op]
     ["axios" :as axios]
@@ -38,6 +39,7 @@
             (string/join ", " coins)}})))
     ((rx/pipe
       (op/map utils/js->cljkk)
+      ; (op/tap #(info %))
       (op/map :data)
       (op/concat-map identity)
       (op/map (fn [{:keys [id ath symbol current_price]}]
@@ -45,17 +47,14 @@
                  :ath ath
                  :sym symbol
                  :price current_price}))
-      ; (op/map #(do
-      ;            (println "----")
-      ;            (pprint/pprint %)
-      ;            (println "----")))
+      ; (op/tap #(do (tb/info "----") (tb/info %)))
       (op/catch-error
         (fn [err]
           (js/console.error err)
           rx/EMPTY))))))
 
 (defmethod ig/init-key :service/coingecko
-  [_ {:keys [coins]}]
+  [_ {:keys [coins conn]}]
   (info "coingecko service started")
   (->
     (ping-ok)
@@ -63,12 +62,21 @@
        (op/switch-map
          (fn [ok]
            (if ok
-             (->
-               (rx/interval 5000)
-               ((rx/pipe
-                  (op/switch-map
-                    #(get-coins coins)))))
-             rx/EMPTY)))))
+             (do (tb/info "ping ok")
+               (rx/interval 5000))
+             (do
+               (tb/warn "ping not ok")
+               rx/EMPTY))))
+       (op/switch-map #(get-coins coins))
+       ; {:id :ath :sym :price}
+       (op/tap
+         (fn [{:keys [id ath sym price]}]
+           (d/transact! conn
+             [{:db/id id
+               :coin/id id
+               :coin/ath ath
+               :coin/sym sym
+               :coin/price price}])))))
     (.subscribe (fn []))))
 
 

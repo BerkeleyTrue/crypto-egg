@@ -12,13 +12,11 @@
     {:coin
      {:db/cardinality :db.cardinality/many}
      :coin/id
-     {:db/valueType :db.type/ref
-      :db/unique :db.unique/identity
+     {:db/unique :db.unique/identity
       :db/cardinality :db.cardinality/one
       :db/doc "coingecko identifier"}
      :coin/sym
-     {:db/valueType :db.type/ref
-      :db/unique :db.unique/identity
+     {:db/unique :db.unique/identity
       :db/cardinality :db.cardinality/one
       :db/doc "coingecko identifier"}
      :coin/ath {}
