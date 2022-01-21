@@ -17,17 +17,23 @@
 (def camel-case (safe-case csc/->camelCase))
 (def kebab-case (safe-case csc/->kebab-case))
 
-(def js->cljk #(js->clj % :keywordize-keys true))
+(def ^{:arglist '([js-obj])
+       :doc "convert js object to cljs map with keyword keys"}
+  js->cljk
+  #(js->clj % :keywordize-keys true))
 
-(def js->cljkk
-  "#js {'fooBar' 'baz'} -> {:foo-bar 'baz'}"
+
+(def ^{:arglist '([js-obj])
+       :doc "convert js object to cljs map with camelCase string keys turned into kebab-case #js {'fooBar' 'baz'} -> {:foo-bar 'baz'}"}
+  js->cljkk
   (comp (partial transform-keys kebab-case) js->cljk))
 
-(comment
-  (js->cljkk #js {"fooBar" "baz"}))
+(comment (js->cljkk #js {"fooBar" "baz"}))
 
-(def cljkk->js
-  "{:foo-bar 'baz'} -> #js {'fooBar' 'baz'}"
+(def ^{:arglist '([js-obj])
+       :doc
+       "convert map to js object, camelCasing keys. {:foo-bar 'baz'} -> #js {'fooBar' 'baz'}"}
+  cljkk->js
   (comp clj->js (partial transform-keys camel-case)))
 
 (defn- keyword-fn [k]
