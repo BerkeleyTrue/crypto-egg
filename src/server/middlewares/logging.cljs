@@ -1,10 +1,10 @@
 (ns server.middlewares.logging
   (:require
     [clojure.string]
-    ["chalk" :as chalk]
-    [taoensso.timbre :refer-macros [info]]))
+    [taoensso.timbre :refer-macros [info]]
+    [chalk.core :refer [green blue red yellow bold cyan]]))
 
-(comment (info (.green chalk "green")))
+(comment (info (green "green")))
 
 (defn- get-req-method [request]
   (-> (:request-method request)
@@ -14,12 +14,12 @@
 
 (defn- get-status-color [status]
   (condp > status
-    300 #(.green chalk %)
-    300 #(.blue chalk %)
-    400 #(.red chalk %)
-    500 #(.yellow chalk %)
-    600 #(.red chalk %)
-    :else #(.red chalk %)))
+    300 green
+    300 blue
+    400 red
+    500 yellow
+    600 red
+    :else red))
 
 (defn- print-res-status [{:keys [status]}]
   ((get-status-color status) status))
@@ -31,12 +31,12 @@
     (-> request
         (get-req-method)
         (color)
-        (#(.bold chalk %)))))
+        (bold))))
 
-(comment (print ((.. chalk -cyan -bold) "foo")))
+(comment (print ((comp cyan bold) "foo")))
 
 (defn- print-req-path [{:keys [uri]}]
-  ((.. chalk -bold -cyan) uri))
+  ((comp bold cyan) uri))
 
 (defn- create-response-logger [request respond]
   (let [startTime (js/Date.now)]
