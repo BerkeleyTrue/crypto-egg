@@ -1,16 +1,17 @@
 (ns server.infra.timbre
   (:require
+    [cljs.pprint :refer [pprint]]
     [taoensso.timbre :as timbre]
     [chalk.core :as chalk]))
 
-(def level-to-color
+(def ^:private level-to-color
   {:debug chalk/cyan
    :info chalk/blue
    :warn chalk/yellow
    :error chalk/red
    :fatal chalk/bg-red})
 
-(defn timbre-output-wrap
+(defn- timbre-output-wrap
   ([data] (timbre-output-wrap nil data))
   ([opts data]
    (let [level (:level data)
@@ -18,9 +19,21 @@
          res (timbre/default-output-fn opts data)]
      (color-fn res))))
 
+(defn- pp-data-middleware
+  [data]
+  (update
+    data
+    :vargs
+    (partial
+      mapv
+      #(if (string? %)
+        %
+        (with-out-str (pprint %))))))
+
 (timbre/merge-config!
   {:timestamp-opts {:pattern "HH:MM:SS"}
-   :output-fn timbre-output-wrap})
+   :output-fn timbre-output-wrap
+   :middleware [pp-data-middleware]})
 
 (comment
   (timbre/debug "debug")
