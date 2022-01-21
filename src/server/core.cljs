@@ -4,6 +4,7 @@
     [taoensso.timbre :as timbre :refer-macros [info error]]
     [integrant.core :as ig]
     [datascript.core :as d]
+    [server.infra.timbre]
     [server.routes]
     [server.system]
     [server.config :refer [env]]
@@ -18,10 +19,6 @@
     (when-let [data (ex-data err)]
       (pprint data))
     (js/process.exit 1)))
-
-(timbre/merge-config!
-  {:timestamp-opts {:pattern "HH:MM:SS"}})
-
 
 (defonce system-ref (atom nil))
 
