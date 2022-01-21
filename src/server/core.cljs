@@ -1,24 +1,14 @@
 (ns server.core
   (:require
-    [cljs.pprint :refer [pprint]]
-    [taoensso.timbre :as timbre :refer-macros [info error]]
+    [taoensso.timbre :as timbre :refer-macros [info]]
     [integrant.core :as ig]
     [datascript.core :as d]
-    [server.infra.timbre]
+    [server.infra.core]
     [server.routes]
     [server.system]
     [server.config :refer [env]]
     [server.services.coingecko.core]))
 
-(js/process.on
-  "uncaughtException"
-  (fn [err]
-    (if-let [cause (ex-cause err)]
-      (error cause)
-      (error err))
-    (when-let [data (ex-data err)]
-      (pprint data))
-    (js/process.exit 1)))
 
 (defonce system-ref (atom nil))
 
