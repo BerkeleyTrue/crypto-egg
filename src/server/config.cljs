@@ -5,7 +5,7 @@
   {:infra.macchiato/http
    {:port 3000
     :host "127.0.0.1"
-    :handler (ig/ref :router/handler)}
+    :handler (ig/ref :app.routes/handler)}
 
    :infra.datascript/conn
    {:schema
@@ -22,7 +22,9 @@
      :coin/ath {}
      :coin/price {}}}
 
-   :router/handler {}
+   :infra.pathom/env {}
+
+   :app.routes/handler {:pathom-env (ig/ref :infra.pathom/env)}
 
    :app.service/coingecko
    {:coins

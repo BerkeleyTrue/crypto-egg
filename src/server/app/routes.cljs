@@ -2,10 +2,14 @@
   (:require
     [integrant.core :as ig]
     [reitit.ring :as ring]
+
     [macchiato.util.response :as r]
     [macchiato.middleware.defaults :as m.defaults]
-    [macchiato.middleware.restful-format :as rf]
-    [server.infra.middlewares.logging :refer [wrap-with-logger]]))
+
+    [com.wsscode.pathom3.interface.eql :as p.eql]
+
+    [server.infra.middlewares.logging :refer [wrap-with-logger]]
+    [server.infra.middlewares.restful :refer [wrap-restful-format]]))
 
 
 (defn ping [_ res _]
@@ -19,33 +23,27 @@
       (r/not-found)
       (r/json)))
 
-(defn lookup-price [req res]
-  (let [coin (-> req :parameters :query :coin)]
-    (-> {:message (str "Coin: " coin)}
+(defn create-pathom-handler [pathom-env]
+  (let [pathom (p.eql/boundary-interface pathom-env)]
+    (fn [{:keys [body]} res]
+      (->
+        (pathom body)
         (r/ok)
-        (r/json)
-        (res))))
+        (r/transit)
+        (res)))))
 
-(def routes
+(defn create-routes [{:keys [pathom-env]}]
   ["" {:no-doc true}
    ["/ping" {:get ping}]
-   ["/api"
-    ["/coin"
-     ["/:coin" {:get {:handler lookup-price}}]]]])
+   ["/api" (create-pathom-handler pathom-env)]])
 
-(def app
+
+(defmethod ig/init-key :app.routes/handler [_ {:keys [pathom-env]}]
   (ring/ring-handler
     (ring/router
-      routes
+      (create-routes {:pathom-env pathom-env})
       {:data {:middleware
               [wrap-with-logger
                #(m.defaults/wrap-defaults % m.defaults/api-defaults)
-               #(rf/wrap-restful-format % {:keywordize? true})]}})
+               wrap-restful-format]}})
     (ring/create-default-handler {:not-found not-found})))
-
-(comment
-  (not-found)
-  (app {:request-method :get :uri "/rainbows"})
-  (app {:request-method :get :uri "/api/coin/btc"}))
-
-(defmethod ig/init-key :router/handler [] app)
