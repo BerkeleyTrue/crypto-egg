@@ -1,7 +1,6 @@
-(ns server.services.coingecko.core
+(ns server.app.services.coingecko
   (:require
     [clojure.string :as string]
-    [cljs.pprint :refer [pprint]]
     [integrant.core :as ig]
     [taoensso.timbre :as tb :refer-macros [info error]]
     [datascript.core :as d]
@@ -53,7 +52,7 @@
           (js/console.error err)
           rx/EMPTY))))))
 
-(defmethod ig/init-key :service/coingecko
+(defmethod ig/init-key :app.service/coingecko
   [_ {:keys [coins conn]}]
   (info "coingecko service started")
   (->
@@ -80,7 +79,7 @@
     (.subscribe (fn []))))
 
 
-(defmethod ig/halt-key! :service/coingecko
+(defmethod ig/halt-key! :app.service/coingecko
   [_ subscription]
   (when (.-unsubscribe subscription)
     (info "unsubscribing")

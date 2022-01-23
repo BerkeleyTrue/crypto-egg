@@ -1,11 +1,11 @@
-(ns server.routes
+(ns server.app.routes
   (:require
     [integrant.core :as ig]
     [reitit.ring :as ring]
     [macchiato.util.response :as r]
-    [macchiato.middleware.params :as params]
+    [macchiato.middleware.defaults :as m.defaults]
     [macchiato.middleware.restful-format :as rf]
-    [server.middlewares.logging :refer [wrap-with-logger]]))
+    [server.infra.middlewares.logging :refer [wrap-with-logger]]))
 
 
 (defn ping [_ res _]
@@ -38,7 +38,8 @@
     (ring/router
       routes
       {:data {:middleware
-              [params/wrap-params
+              [wrap-with-logger
+               #(m.defaults/wrap-defaults % m.defaults/api-defaults)
                #(rf/wrap-restful-format % {:keywordize? true})]}})
     (ring/create-default-handler {:not-found not-found})))
 
@@ -47,4 +48,4 @@
   (app {:request-method :get :uri "/rainbows"})
   (app {:request-method :get :uri "/api/coin/btc"}))
 
-(defmethod ig/init-key :router/handler [] (wrap-with-logger app))
+(defmethod ig/init-key :router/handler [] app)

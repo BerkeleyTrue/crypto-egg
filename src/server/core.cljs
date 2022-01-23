@@ -9,9 +9,8 @@
     [com.wsscode.pathom.viz.ws-connector.core :as pvc]
     [com.wsscode.pathom.viz.ws-connector.pathom3 :as p.connector]
 
-    [server.infra.core]
-    [server.routes]
-    [server.system]
+    [server.infra]
+    [server.app]
     [server.config :refer [env]]
     [server.services.coingecko.core]))
 

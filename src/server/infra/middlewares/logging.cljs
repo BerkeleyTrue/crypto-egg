@@ -1,4 +1,4 @@
-(ns server.middlewares.logging
+(ns server.infra.middlewares.logging
   (:require
     [clojure.string]
     [taoensso.timbre :refer-macros [info]]

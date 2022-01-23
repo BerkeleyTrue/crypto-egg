@@ -2,12 +2,12 @@
   (:require [integrant.core :as ig]))
 
 (def env
-  {:system/http
+  {:infra.macchiato/http
    {:port 3000
     :host "127.0.0.1"
     :handler (ig/ref :router/handler)}
 
-   :db/conn
+   :infra.datascript/conn
    {:schema
     {:coin
      {:db/cardinality :db.cardinality/many}
@@ -23,7 +23,8 @@
      :coin/price {}}}
 
    :router/handler {}
-   :service/coingecko
+
+   :app.service/coingecko
    {:coins
     ; must use coin gecko id's
     ["bitcoin"
@@ -32,4 +33,4 @@
      "pickle-finance"
      "olympus"
      "ethereum-name-service"]
-    :conn (ig/ref :db/conn)}})
+    :conn (ig/ref :infra.datascript/conn)}})

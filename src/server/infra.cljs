@@ -1,5 +1,6 @@
-(ns server.infra.core
+(ns server.infra
   (:require
     [server.infra.timbre]
     [server.infra.global-error-handler]
-    [server.infra.datascript]))
+    [server.infra.datascript]
+    [server.infra.macchiato]))
