@@ -6,16 +6,16 @@
     [datascript.core :as d]
     [rx.core :as rx]
     [rx.operators :as op]
-    ["axios" :as axios]
+    [axios.core :as axios]
     [utils]))
 
 (def api "https://api.coingecko.com/api/v3/")
 
-(def client (.create axios (clj->js {:baseURL api})))
+(def client (axios/create-client {:base-url api}))
 
 (defn ping-ok []
   (->
-    (rx/defer #(.get client "/ping"))
+    (rx/defer #(axios/get client "/ping"))
     ((rx/pipe
       (op/map utils/js->cljkk)
       (op/map :status)
@@ -29,13 +29,12 @@
 (defn get-coins [coins]
   (->
     (rx/defer
-      #(.get client
+      #(axios/get client
         "/coins/markets"
-        (utils/cljkk->js
-          {:params
-           {:vs_currency "usd"
-            :ids
-            (string/join ", " coins)}})))
+        {:params
+         {:vs_currency "usd"
+          :ids (string/join ", " coins)}}))
+
     ((rx/pipe
       (op/map utils/js->cljkk)
       ; (op/tap #(info %))
