@@ -9,7 +9,7 @@
 
 (def pathom-viz? false)
 
-(defmethod ig/init-key :infra.pathom/env []
-  (cond-> (pci/register [resolvers/coin-price])
+(defmethod ig/init-key :infra.pathom/env [_ {:keys [conn]}]
+  (cond-> (pci/register {:datascript/conn conn} [resolvers/coin-price])
     pathom-viz?
     (p.connector/connect-env {::pvc/parser-id `pathom-env})))

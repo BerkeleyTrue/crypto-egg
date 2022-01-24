@@ -22,7 +22,7 @@
      :coin/ath {}
      :coin/price {}}}
 
-   :infra.pathom/env {}
+   :infra.pathom/env {:conn (ig/ref :infra.datascript/conn)}
 
    :app.routes/handler {:pathom-env (ig/ref :infra.pathom/env)}
 

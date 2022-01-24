@@ -1,6 +1,6 @@
 (ns server.core
   (:require
-    [taoensso.timbre :as timbre :refer-macros [info]]
+    [taoensso.timbre :as log :refer-macros [info]]
     [integrant.core :as ig]
 
     [server.infra]
