@@ -3,7 +3,7 @@
   (:require
     ["axios" :as axiosjs]
     [axios.interceptor :as interceptor]
-    [axios.utils :refer [config->js]]
+    [axios.utils :refer [config->js is-client?]]
     [utils]))
 
 
@@ -73,11 +73,16 @@
       {:cljify tre}))
   "
   ([config] (create-client axiosjs config {}))
-  ([root-client config] (create-client root-client config {}))
+
+  ([client-or-config config-or-opts]
+   (if (is-client? client-or-config)
+     (create-client client-or-config config-or-opts {})
+     (create-client axiosjs client-or-config config-or-opts)))
+
   ([root-client config {:keys [cljify] :or {cljify true}}]
    (let [client (.create root-client (config->js config))]
      (when cljify
-      (add-response-interceptor client utils/js->cljkk))
+       (add-response-interceptor client utils/js->cljkk))
      client)))
 
 (defn request [client config]
@@ -103,22 +108,35 @@
   ([client url] (js-invoke client "options" url))
   ([client url config] (js-invoke client "options" url (config->js config))))
 
+(defn- conj-client-first [args]
+  (if (is-client? (first args))
+    args
+    (conj [axiosjs] args)))
+
 (defn post
-  ([url] (post axiosjs url))
-  ([client url] (js-invoke client "post" url))
-  ([client url config] (js-invoke client "post" url (config->js config))))
+  "Create a POST request to a url.
+  (post \"/api\" data? config?)
+  (post client \"/api\" data? config?)"
+  [& args]
+  (let [[client url data config] (conj-client-first args)]
+    (js-invoke client "post" url data (config->js config))))
 
 (defn put
-  ([url] (put axiosjs url))
-  ([client url] (js-invoke client "put" url))
-  ([client url config] (js-invoke client "put" url (config->js config))))
+  "Create a PUT request to a url.
+  (put \"/api\" data? config?)
+  (put client \"/api\" data? config?)"
+  [& args]
+  (let [[client url data config] (conj-client-first args)]
+    (js-invoke client "put" url data (config->js config))))
 
 (defn patch
-  ([url] (patch axiosjs url))
-  ([client url] (js-invoke client "patch" url))
-  ([client url config] (js-invoke client "patch" url (config->js config))))
+  "Create a PATCH request to a url.
+  (patch \"/api\" data? config?)
+  (patch client \"/api\" data? config?)"
+  [& args]
+  (let [[client url data config] (conj-client-first args)]
+    (js-invoke client "patch" url data (config->js config))))
 
 (defn get-uri
-  ([url] (get-uri axiosjs url))
-  ([client url] (js-invoke client "getUri" url))
-  ([client url config] (js-invoke client "getUri" url (config->js config))))
+  ([client] (js-invoke client "getUri"))
+  ([client config] (js-invoke client "getUri" (config->js config))))

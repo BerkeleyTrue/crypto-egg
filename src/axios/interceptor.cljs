@@ -15,7 +15,7 @@
           (config->js %))))))
 
 (defn create-add-interceptor
-  "
+  "Create add-interceptor function.
   (add-interceptor client then-handler? catch-handler? opts?)
   "
   ([method] (create-add-interceptor method {}))
