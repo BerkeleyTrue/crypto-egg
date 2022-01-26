@@ -29,7 +29,7 @@
       (->
         (pathom body)
         (r/ok)
-        (r/transit)
+        (r/content-type "application/transit+json")
         (res)))))
 
 (defn create-routes [{:keys [pathom-env]}]
