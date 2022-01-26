@@ -5,8 +5,14 @@
     [macchiato.middleware.restful-format :as rf]))
 
 (comment
-  (let [writer (t/writer :json {:handlers p.transit/write-handlers :transform t/write-meta})]
-    (t/write writer [{[:coin/sym "btc"] [:coin/price]}])))
+  (let [writer (t/writer :json {:handlers p.transit/write-handlers
+                                :transform t/write-meta})
+        reader (t/reader :json {:handlers p.transit/read-handlers})
+
+        wrote (t/write writer [{[:coin/sym "btc"] [:coin/price]}])
+        readed (t/read reader wrote)]
+    (print wrote)
+    (print readed)))
 
 (defn wrap-restful-format [handler]
   (rf/wrap-restful-format
