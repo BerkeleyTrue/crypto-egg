@@ -2,7 +2,7 @@
   (:require
     [clojure.string :as string]
     [integrant.core :as ig]
-    [taoensso.timbre :as tb :refer-macros [info error]]
+    [taoensso.timbre :as log :refer-macros [info error]]
     [datascript.core :as d]
     [rx.core :as rx]
     [rx.operators :as op]
@@ -45,7 +45,7 @@
       ; (op/tap #(do (tb/info "----") (tb/info %)))
       (op/catch-error
         (fn [err]
-          (js/console.error err)
+          (error err)
           rx/EMPTY))))))
 
 (defmethod ig/init-key :app.service/coingecko
@@ -57,10 +57,10 @@
        (op/switch-map
          (fn [ok]
            (if ok
-             (do (tb/info "ping ok")
+             (do (log/info "ping ok")
                (rx/interval 5000))
              (do
-               (tb/warn "ping not ok")
+               (log/warn "ping not ok")
                rx/EMPTY))))
        (op/switch-map #(get-coins coins))
        ; {:id :ath :sym :price}
