@@ -17,7 +17,6 @@
   (->
     (rx/defer #(axios/get client "/ping"))
     ((rx/pipe
-      (op/map utils/js->cljkk)
       (op/map :status)
       (op/map #(= 200 %))
       (op/catch-error
@@ -36,8 +35,6 @@
           :ids (string/join ", " coins)}}))
 
     ((rx/pipe
-      (op/map utils/js->cljkk)
-      ; (op/tap #(info %))
       (op/map :data)
       (op/concat-map identity)
       (op/map (fn [{:keys [id ath symbol current_price]}]

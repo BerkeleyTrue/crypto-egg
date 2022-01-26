@@ -4,4 +4,8 @@
   com.wsscode.pathom3.connect.operation/defresolver cljs.core/defn}
  :hooks
  {:macroexpand
-  {chalk.macro/gen-methods chalk.macro/gen-methods}}}
+  {chalk.macro/gen-methods chalk.macro/gen-methods}}
+ :linters
+ {:docstring-no-summary {:level :warning}
+  :clojure-lsp/unused-public-var
+  {:exclude #{axios.core}}}}
