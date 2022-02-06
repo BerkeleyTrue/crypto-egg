@@ -9,7 +9,7 @@
                  :coin/price
                  :coin/ath
                  :coin/sym]}
-
+  
   (let [results (d/q '[:find ?name ?price ?ath ?sym
                        :in $ ?sym
                        :where
@@ -17,14 +17,14 @@
                        [?e :coin/price ?price]
                        [?e :coin/id ?name]
                        [?e :coin/ath ?ath]]
-
+                     
                      @conn
                      sym)
         res (first results)
         coin-name (first res)
         price (second res)
         ath (nth res 2)]
-
+    
     {:coin/price price
      :coin/name coin-name
      :coin/ath ath

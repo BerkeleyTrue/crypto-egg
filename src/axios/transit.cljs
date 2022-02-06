@@ -26,14 +26,14 @@
           (if (= content-type transit-content-type)
             (t/write writer data)
             data)))]
-
+     
      :transform-response
      [(fn transform-response [data headers]
         (let [content-type (:content-type (utils/js->cljkk headers))]
           (if (= content-type transit-content-type)
             (t/read reader data)
             data)))]}
-
+    
     {:cljify false}))
 
 

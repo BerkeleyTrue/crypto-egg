@@ -2,7 +2,6 @@
   (:require
     [taoensso.timbre :as log :refer-macros [info]]
     [integrant.core :as ig]
-
     [server.infra]
     [server.infra.graceful-shutdown :refer [add-graceful-exit-handler]]
     [server.app]

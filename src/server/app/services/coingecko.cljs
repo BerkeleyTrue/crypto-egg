@@ -17,12 +17,12 @@
   (->
     (rx/defer #(axios/get client "/ping"))
     ((rx/pipe
-      (op/map :status)
-      (op/map #(= 200 %))
-      (op/catch-error
-        (fn [err]
-          (error err)
-          (rx/of false)))))))
+       (op/map :status)
+       (op/map #(= 200 %))
+       (op/catch-error
+         (fn [err]
+           (error err)
+           (rx/of false)))))))
 
 
 (defn get-coins [coins]
@@ -35,18 +35,19 @@
           :ids (string/join ", " coins)}}))
 
     ((rx/pipe
-      (op/map :data)
-      (op/concat-map identity)
-      (op/map (fn [{:keys [id ath symbol current_price]}]
-                {:id id
-                 :ath ath
-                 :sym symbol
-                 :price current_price}))
-      ; (op/tap #(do (tb/info "----") (tb/info %)))
-      (op/catch-error
-        (fn [err]
-          (error err)
-          rx/EMPTY))))))
+       (op/map :data)
+       (op/concat-map identity)
+       (op/map
+         (fn [{:keys [id ath symbol current_price]}]
+           {:id id
+            :ath ath
+            :sym symbol
+            :price current_price}))
+       ; (op/tap #(do (tb/info "----") (tb/info %)))
+       (op/catch-error
+         (fn [err]
+           (error err)
+           rx/EMPTY))))))
 
 (defmethod ig/init-key :app.service/coingecko
   [_ {:keys [coins conn]}]

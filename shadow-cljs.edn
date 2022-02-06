@@ -1,7 +1,7 @@
 {:dependencies [[devcards "0.2.6"]
                 [refactor-nrepl "3.2.0"]
                 [cider/cider-nrepl "0.25.9"]
-
+                
                 [com.taoensso/timbre "5.1.2"]
                 [integrant "0.8.0"]
                 [camel-snake-kebab "0.4.2"]
@@ -9,19 +9,19 @@
                 ; required to fix macchiato issue in shadow build tool
                 [funcool/cuerdas "2021.05.09-0"]
                 [datascript "1.3.6"]
-
+                
                 ; pathom
                 [com.wsscode/pathom-viz-connector "2021.04.20"]
                 [com.wsscode/pathom3 "2021.07.10-alpha"]
-
+                
                 [macchiato/core "0.2.22"]
                 [macchiato/http "0.1.2"]
                 [metosin/reitit "0.5.15"]
                 [metosin/reitit-ring "0.5.15"]
                 [metosin/muuntaja "0.6.8"]]
-
-
-
+ 
+ 
+ 
  :source-paths ["src"]
  ; :dev-http {3000 "public"}
  :nrepl
@@ -46,4 +46,3 @@
   :e2e {:ns-regexp "e2e.*"
         :output-to "out/e2e.js"
         :target :node-test}}}
-

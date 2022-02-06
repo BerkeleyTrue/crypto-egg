@@ -15,11 +15,12 @@
          (fn catch-handler [err])
          {:run-when (fn [] true)
           :run-syncronous false})"}
-
-  add-request-interceptor (interceptor/create-add-interceptor
-                            "request"
-                            {:wrap-then
-                             interceptor/wrap-request-interceptor}))
+     
+     add-request-interceptor
+     (interceptor/create-add-interceptor
+       "request"
+       {:wrap-then
+        interceptor/wrap-request-interceptor}))
 
 (def ^{:arglists '([client then-handler? catch-handler? opts?])
        :doc "Add response interceptor.
@@ -29,8 +30,9 @@
          (fn catch-handler [err])
          {:run-when (fn [] true)
            :run-syncronous false})"}
-
-  add-response-interceptor (interceptor/create-add-interceptor "response"))
+     
+     add-response-interceptor
+     (interceptor/create-add-interceptor "response"))
 
 
 ;; ensure axios response is clj
@@ -73,12 +75,12 @@
       {:cljify tre}))
   "
   ([config] (create-client axiosjs config {}))
-
+  
   ([client-or-config config-or-opts]
    (if (is-client? client-or-config)
      (create-client client-or-config config-or-opts {})
      (create-client axiosjs client-or-config config-or-opts)))
-
+  
   ([root-client config {:keys [cljify] :or {cljify true}}]
    (let [client (.create root-client (config->js config))]
      (when cljify

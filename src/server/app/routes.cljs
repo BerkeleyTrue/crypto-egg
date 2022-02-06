@@ -2,12 +2,12 @@
   (:require
     [integrant.core :as ig]
     [reitit.ring :as ring]
-
+    
     [macchiato.util.response :as r]
     [macchiato.middleware.defaults :as m.defaults]
-
+    
     [com.wsscode.pathom3.interface.eql :as p.eql]
-
+    
     [server.infra.middlewares.logging :refer [wrap-with-logger]]
     [server.infra.middlewares.restful :refer [wrap-restful-format]]))
 

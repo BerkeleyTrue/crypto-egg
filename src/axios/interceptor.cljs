@@ -11,8 +11,8 @@
       (utils/js->cljkk)
       (h)
       (#(if (fn? (.-then %))
-          (.then % config->js)
-          (config->js %))))))
+         (.then % config->js)
+         (config->js %))))))
 
 (defn create-add-interceptor
   "Create add-interceptor function.
@@ -26,11 +26,11 @@
                           (if wrap-then
                             (wrap-then then-handler)
                             then-handler))
-
+           
            catch-handler (when-let [catch-handler (second args)]
-                          (if wrap-catch
-                            (wrap-catch catch-handler)
-                            catch-handler))
+                           (if wrap-catch
+                             (wrap-catch catch-handler)
+                             catch-handler))
            opts (nth args 2 nil)]
        (js-invoke
          (obj/get (.. client -interceptors) method)
