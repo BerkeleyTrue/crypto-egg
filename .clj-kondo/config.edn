@@ -8,4 +8,4 @@
  :linters
  {:docstring-no-summary {:level :warning}
   :clojure-lsp/unused-public-var
-  {:exclude #{axios.core}}}}
+  {:exclude #{axios.core chalk.core}}}}
