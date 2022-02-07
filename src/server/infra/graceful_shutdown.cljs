@@ -31,6 +31,14 @@
       (info "SIGINT: halting")
       (graceful-dance)
       (info "exiting")
+      (js/process.exit)))
+
+  (js/process.on
+    "SIGTERM"
+    (fn []
+      (info "SIGTERM: halting")
+      (graceful-dance)
+      (info "exiting")
       (js/process.exit))))
 
 ; don't run in test env
