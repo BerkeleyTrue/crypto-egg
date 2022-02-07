@@ -9,9 +9,22 @@
 (defn add-graceful-exit-handler [handler]
   (swap! handlers* conj handler))
 
+(def ^:private kill-signals
+  ["SIGTERM"
+   "SIGINT"])
+
 (defn- graceful-dance []
   (let [handlers @handlers*]
     (run! #(%) handlers)))
+
+(defn- signal-kill [signal]
+  (js/process.on
+    signal
+    (fn []
+      (info (str signal ": halting"))
+      (graceful-dance)
+      (info "exiting")
+      (js/process.exit))))
 
 (defn init []
   (js/process.on
@@ -25,21 +38,7 @@
       (graceful-dance)
       (js/process.exit 1)))
 
-  (js/process.on
-    "SIGINT"
-    (fn []
-      (info "SIGINT: halting")
-      (graceful-dance)
-      (info "exiting")
-      (js/process.exit)))
-
-  (js/process.on
-    "SIGTERM"
-    (fn []
-      (info "SIGTERM: halting")
-      (graceful-dance)
-      (info "exiting")
-      (js/process.exit))))
+  (run! signal-kill kill-signals))
 
 ; don't run in test env
 (when-not TEST? (init))
