@@ -9,7 +9,8 @@
     "start:server": "shadow-cljs watch server",
     "start": "npm run start:server",
     "cards": "shadow-cljs watch cards",
-    "build:cli": "shadow-cljs release cli",
+    "build:cli": "shadow-cljs release cli && ncc build build/cli.js -o bin/ --target es2020 && mv -f bin/index.js bin/crypto-egg",
+    "build:cli:install": "./scripts/install.sh",
     "build:server": "shadow-cljs release server",
     "build:docker": "docker build -f docker/Dockerfile -t crypto-egg/server .",
     "test": "shadow-cljs compile test && node out/test.js",
@@ -17,10 +18,10 @@
     "e2e": "shadow-cljs compile e2e && node out/e2e.js",
     "report": "shadow-cljs run shadow.cljs.build-report app report.html",
     "lint": "clj-kondo --lint src",
-    "format": "zprint-clj --hang -i \"./src/**/*.{clj,cljs,cljc,edn}\" -o ./ && zprint-clj -i \"./*.edn\" -o ./",
-    "clean": "rimraf public/js"
+    "format": "zprint-clj --hang -i \"./src/**/*.{clj,cljs,cljc,edn}\" -o ./ && zprint-clj -i \"./*.edn\" -o ./"
   },
   "devDependencies": {
+    "@vercel/ncc": "^0.33.1",
     "clj-kondo": "^2022.1.15",
     "serve-handler": "~6.1.3",
     "shadow-cljs": "^2.16.12",

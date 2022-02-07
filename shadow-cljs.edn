@@ -37,17 +37,12 @@
    :compiler-options
    {:infer-externs :auto
     :externs ["datascript/externs.js"]}
-   :release {:closure-defines {server.config/HOST "0.0.0.0"}}}
+   :release
+   {:closure-defines {server.config/HOST "0.0.0.0"}}}
   
   :cli
   {:target :node-script
    :main cli.core/main
-   :output-to "bin/crypto-egg"
-   :release {:closure-defines {cli.core/PORT 10007}}}
-  
-  :test {:ns-regexp "app.cards"
-         :output-to "out/test.js"
-         :target :node-test}
-  :e2e {:ns-regexp "e2e.*"
-        :output-to "out/e2e.js"
-        :target :node-test}}}
+   :output-to "build/cli.js"
+   :release
+   {:closure-defines {cli.core/PORT 10007}}}}}
