@@ -43,5 +43,5 @@
     (.-data response)))
 
 (comment
-  (-> (axios/post client "http://localhost:3000/api" [{[:coin/id "btc"] [:coin/price]}])
+  (-> (axios/post client "http://localhost:3000/api" [{[:coin/sym "xtz"] [:coin/price]}])
       (.then #(do (log/debug "res: " %)))))
