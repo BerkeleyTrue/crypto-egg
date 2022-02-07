@@ -42,7 +42,8 @@
   :cli
   {:target :node-script
    :main cli.core/main
-   :output-to "bin/crypto-egg"}
+   :output-to "bin/crypto-egg"
+   :release {:closure-defines {cli.core/PORT 10007}}}
   
   :test {:ns-regexp "app.cards"
          :output-to "out/test.js"

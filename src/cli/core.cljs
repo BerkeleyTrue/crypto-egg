@@ -7,6 +7,7 @@
     [cli.utils :refer [display-price]]
     [utils]))
 
+(goog-define PORT "10007")
 
 (def ^:private ^js/yargs parser
   (->
@@ -63,7 +64,7 @@
   (->
     client
     (axios/post
-      "http://localhost:3000/api"
+      (str "http://localhost:" PORT "/api")
       [{[:coin/sym sym] [:coin/price]}])
     (.then (comp :coin/price first vals))
     (.then #(if (nil? %) "N/A" (display-price %)))
