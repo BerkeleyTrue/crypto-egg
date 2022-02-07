@@ -1,4 +1,4 @@
-FROM node:16-bullseye
+FROM node:16-bullseye AS builder
 RUN apt-get update && apt-get -q -y install \
       openjdk-17-jdk \
       curl \
@@ -9,6 +9,11 @@ COPY package*.json ./
 RUN npm ci
 COPY . .
 RUN npm run build:server
-EXPOSE 3000
-CMD [ "node", "build/server.js" ]
 
+FROM node:16-alpine
+WORKDIR /usr/app
+COPY --from=builder /usr/app/build/server.js ./server.js
+COPY --from=builder /usr/app/package* ./
+RUN NODE_ENV=production npm ci
+EXPOSE 3000
+CMD [ "node", "server.js" ]
