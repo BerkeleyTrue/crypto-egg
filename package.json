@@ -11,6 +11,7 @@
     "cards": "shadow-cljs watch cards",
     "build:cli": "shadow-cljs release cli",
     "build:server": "shadow-cljs release server",
+    "build:docker": "docker build -f docker/Dockerfile -t crypto-egg/server .",
     "test": "shadow-cljs compile test && node out/test.js",
     "test:watch": "shadow-cljs watch test --config-merge \"{:autorun true}\"",
     "e2e": "shadow-cljs compile e2e && node out/e2e.js",

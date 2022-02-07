@@ -1,10 +1,12 @@
 (ns server.config
   (:require [integrant.core :as ig]))
 
+(goog-define HOST "127.0.0.1")
+
 (def env
   {:infra.macchiato/http
    {:port 3000
-    :host "127.0.0.1"
+    :host HOST
     :handler (ig/ref :app.routes/handler)}
    
    :infra.datascript/conn

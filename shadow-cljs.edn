@@ -36,7 +36,8 @@
    :target :node-script
    :compiler-options
    {:infer-externs :auto
-    :externs ["datascript/externs.js"]}}
+    :externs ["datascript/externs.js"]}
+   :release {:closure-defines {server.config/HOST "0.0.0.0"}}}
   
   :cli
   {:target :node-script

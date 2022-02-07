@@ -1,0 +1,10 @@
+node_modules
+npm-debug.log
+build
+bin
+.lsp
+.git
+.clj-kondo
+.zprintrc
+README
+docker

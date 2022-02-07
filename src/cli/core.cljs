@@ -94,9 +94,9 @@
 (comment
   (set! (.. process -argv)
         #js
-         ["/home/berkeleytrue/dvlpmnt/crypto/crypto-egg/bin/crypto-egg"
-          "price"
-          "xtz"])
+        ["/home/berkeleytrue/dvlpmnt/crypto/crypto-egg/bin/crypto-egg"
+         "price"
+         "xtz"])
   (print (.-argv process)) ; #js ["/usr/local/bin/node"
                            ; "/home/berkeleytrue/dvlpmnt/crypto/crypto-egg/bin/crypto-egg"]
   (main))
