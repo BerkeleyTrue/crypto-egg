@@ -33,7 +33,10 @@
  {:server
   {:main server.core/main
    :output-to "build/server.js"
-   :target :node-script}
+   :target :node-script
+   :compiler-options
+   {:infer-externs :auto
+    :externs ["datascript/externs.js"]}}
   
   :cli
   {:target :node-script

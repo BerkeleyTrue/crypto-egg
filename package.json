@@ -10,6 +10,7 @@
     "start": "npm run start:server",
     "cards": "shadow-cljs watch cards",
     "build": "shadow-cljs release cli",
+    "build:server": "shadow-cljs release server",
     "test": "shadow-cljs compile test && node out/test.js",
     "test:watch": "shadow-cljs watch test --config-merge \"{:autorun true}\"",
     "e2e": "shadow-cljs compile e2e && node out/e2e.js",

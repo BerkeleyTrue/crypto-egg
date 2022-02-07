@@ -43,7 +43,7 @@
             :ath ath
             :sym symbol
             :price current_price}))
-       ; (op/tap #(do (tb/info "----") (tb/info %)))
+       ; (op/tap #(do (log/info "----") (log/info %)))
        (op/catch-error
          (fn [err]
            (error err)
