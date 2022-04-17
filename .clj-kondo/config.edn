@@ -7,5 +7,6 @@
   {chalk.macro/gen-methods chalk.macro/gen-methods}}
  :linters
  {:docstring-no-summary {:level :warning}
+  :namespace-name-mismatch false
   :clojure-lsp/unused-public-var
   {:exclude #{axios.core chalk.core}}}}
