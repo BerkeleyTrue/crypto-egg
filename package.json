@@ -7,6 +7,8 @@
     "server": "shadow-cljs stop && shadow-cljs start",
     "start:cli": "shadow-cljs watch cli",
     "start:server": "shadow-cljs watch server",
+    "dev:server": "node ./build/server.js",
+    "dev:cli": "node ./build/cli.js",
     "start": "npm run start:server",
     "cards": "shadow-cljs watch cards",
     "build:cli": "shadow-cljs release cli && ncc build build/cli.js -o bin/ --target es2020 && mv -f bin/index.js bin/crypto-egg",
@@ -31,6 +33,7 @@
   },
   "dependencies": {
     "axios": "^0.25.0",
+    "backoff-rxjs": "^6.5.7",
     "chalk": "^4.1.2",
     "concat-stream": "1.6.2",
     "content-type": "1.0.4",

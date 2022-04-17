@@ -6,6 +6,7 @@
     [datascript.core :as d]
     [rx.core :as rx]
     [rx.operators :as op]
+    [rx.operators.backoff :refer [backoff]]
     [axios.core :as axios]
     [utils]))
 
@@ -17,6 +18,13 @@
   (->
     (rx/defer #(axios/get client "/ping"))
     ((rx/pipe
+       (backoff {:reset-on-success true
+                 :initial-interval 2000
+                 :max-interval (* 10 1000)
+                 :should-retry
+                 (fn []
+                   (info "ping attempt failed")
+                   true)})
        (op/map :status)
        (op/map #(= 200 %))
        (op/catch-error
